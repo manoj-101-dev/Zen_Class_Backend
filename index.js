@@ -14,6 +14,10 @@ app.get("/", (req, res) => {
 // Allow CORS for all routes
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.status(200).send("Your service is live");
+});
+
 app.use("/zen_class", authRoutes);
 
 const PORT = process.env.PORT || 9000;
