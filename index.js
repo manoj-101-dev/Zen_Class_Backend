@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/", authRoutes);
+app.use("/zen_class", authRoutes);
 
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
