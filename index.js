@@ -7,6 +7,12 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.get("/", (req, res) => {
+  res.status(200).send("Your service is live");
+});
+
+// Allow CORS for all routes
+app.use(cors());
 
 app.use("/zen_class", authRoutes);
 
