@@ -8,6 +8,10 @@ const app = express();
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.status(200).send("Your service is live");
+});
+
 app.use("/zen_class", authRoutes);
 
 const PORT = process.env.PORT || 9000;
