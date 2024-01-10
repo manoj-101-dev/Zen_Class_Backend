@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
   res.status(200).send("Your service is live");
 });
 
-app.use("/zen_class", authRoutes);
+app.use("/", authRoutes);
 
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {

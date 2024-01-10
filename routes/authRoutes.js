@@ -17,7 +17,7 @@ router.post("/signup", signup);
 
 router.post("/login", login);
 // Applying authenticateToken middleware to routes that require authentication
-// router.use(authenticateToken);
+router.use(authenticateToken);
 router.post("/queries", createQuery);
 router.get("/queries", getQueries);
 router.delete("/queries/:id", deleteQuery);
