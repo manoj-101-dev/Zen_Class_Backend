@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import { db } from "../db.js";
 
 dotenv.config();
 let applications = [];
@@ -10,11 +11,11 @@ export const leaveAplication = async (req, res) => {
   applications.push(newApplication);
 
   // Assuming the user's email is included in the authentication token
-  const token = req.headers.authorization.split(" ")[1];
+
   try {
-    const decoded = jwt.verify(token, process.env.SECRET_KEY); // Verify and decode the token
-    const userEmail = decoded.email; // Extract the user's email from the decoded token
-    // Store the new leave application in the database
+    const token = req.headers.authorization.split(" ")[1];
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+    const userEmail = decodedToken.email;
     await db.collection("leaveApplications").insertOne({
       ...newApplication,
       userEmail,
