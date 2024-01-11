@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import { db } from "../db.js";
 import jwt from "jsonwebtoken";
+import { ObjectId } from "mongodb";
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ export const createQuery = async (req, res) => {
 
     await db.collection("queries").insertOne({ ...newQuery, userEmail });
 
-    sendEmail(userEmail, newQuery);
+    await sendEmail(userEmail, newQuery);
     res
       .status(201)
       .json({ message: "Query created successfully", query: newQuery });
@@ -60,27 +61,27 @@ export const deleteQuery = async (req, res) => {
 };
 
 // Function to send an email
-const sendEmail = (userEmail, newQuery) => {
-  const transporter = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.PASSWORD,
-    },
-  });
+const sendEmail = async (userEmail, newQuery) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
+      },
+    });
 
-  const mailOptions = {
-    from: userEmail,
-    to: process.env.EMAIL,
-    subject: "Query Created",
-    text: `Your query "${newQuery.title}" has been created successfully.`,
-  };
+    const mailOptions = {
+      from: userEmail,
+      to: process.env.EMAIL,
+      subject: "Query Created",
+      text: `Your query "${newQuery.title}" has been created successfully.`,
+    };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error("Error occurred while sending email:", error);
-    } else {
-      console.log("Email sent:", info.response);
-    }
-  });
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.response);
+  } catch (error) {
+    console.error("Error occurred while sending email:", error);
+    // Handle the error as needed
+  }
 };
