@@ -14,7 +14,6 @@ import { authenticateToken } from "../auth/jwt.js";
 const router = express.Router();
 
 router.post("/signup", signup);
-
 router.post("/login", login);
 // Applying authenticateToken middleware to routes that require authentication
 router.use(authenticateToken);
