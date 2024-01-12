@@ -60,7 +60,7 @@ export const leaveApplication = async (req, res) => {
 };
 
 // Function to get leave applications for the authenticated user
-export const getUserLeaveApplications = async (req, res) => {
+export const getAllLeaveApplications = async (req, res) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
