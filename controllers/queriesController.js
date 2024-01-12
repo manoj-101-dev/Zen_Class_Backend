@@ -36,16 +36,15 @@ export const getQueries = async (req, res) => {
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
     const loggedInUserEmail = decodedToken.email;
 
-    const queries = await db
+    const userQueries = await db
       .collection("queries")
-      .find({ userEmail: loggedInUserEmail }) // Filter queries based on the logged-in user's email
+      .find({ userEmail: loggedInUserEmail })
       .toArray();
 
-    res.json(queries);
+    res.json(userQueries);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error fetching queries", error: error.message });
+    console.error("Error retrieving user's queries:", error);
+    res.status(500).json({ message: "Error retrieving user's queries" });
   }
 };
 
