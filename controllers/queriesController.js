@@ -34,11 +34,11 @@ export const getQueries = async (req, res) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-    const userEmail = decodedToken.email;
+    const loggedInUserEmail = decodedToken.email;
 
     const queries = await db
       .collection("queries")
-      .find({ userEmail }) // Filter queries based on the user's email
+      .find({ userEmail: loggedInUserEmail }) // Filter queries based on the logged-in user's email
       .toArray();
 
     res.json(queries);
