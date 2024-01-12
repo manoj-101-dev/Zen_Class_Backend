@@ -29,10 +29,18 @@ export const createQuery = async (req, res) => {
   }
 };
 
-// Function to get all queries
+// Function to get queries for the logged-in user
 export const getQueries = async (req, res) => {
   try {
-    const queries = await db.collection("queries").find().toArray();
+    const token = req.headers.authorization.split(" ")[1];
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+    const userEmail = decodedToken.email;
+
+    const queries = await db
+      .collection("queries")
+      .find({ userEmail }) // Filter queries based on the user's email
+      .toArray();
+
     res.json(queries);
   } catch (error) {
     res
