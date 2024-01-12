@@ -7,7 +7,7 @@ import {
 } from "../controllers/queriesController.js";
 import {
   getAllLeaveApplications,
-  leaveAplication,
+  leaveApplication,
 } from "../controllers/leaveController.js";
 import { authenticateToken } from "../auth/jwt.js";
 
@@ -20,7 +20,7 @@ router.use(authenticateToken);
 router.post("/queries", createQuery);
 router.get("/queries", getQueries);
 router.delete("/queries/:id", deleteQuery);
-router.post("/leaveAplication", leaveAplication);
-router.get("/AllLeaveAplication", getAllLeaveApplications);
+router.post("/leaveApplication", leaveApplication);
+router.get("/AllLeaveApplication", getAllLeaveApplications);
 
 export default router;
