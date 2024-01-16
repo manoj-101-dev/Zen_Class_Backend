@@ -22,7 +22,7 @@ router.post("/queries", createQuery);
 router.get("/queries", getQueries);
 router.delete("/queries/:id", deleteQuery);
 router.post("/leaveApplication", leaveApplication);
-router.get("/AllLeaveApplication", getAllLeaveApplications);
-router.delete("/DeleteleaveApplication", deleteLeaveApplication);
+router.get("/allLeaveApplication", getAllLeaveApplications);
+router.delete("/leaveApplication/:id", deleteLeaveApplication);
 
 export default router;
