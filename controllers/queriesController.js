@@ -52,9 +52,11 @@ export const getQueries = async (req, res) => {
 export const deleteQuery = async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await db
-      .collection("queries")
-      .deleteOne({ _id: ObjectId(id) });
+    // Use 'new' to instantiate ObjectId
+    const queryId = new ObjectId(id);
+
+    const result = await db.collection("queries").deleteOne({ _id: queryId });
+
     if (result.deletedCount > 0) {
       res.json({ message: `Query with ID ${id} deleted successfully` });
     } else {

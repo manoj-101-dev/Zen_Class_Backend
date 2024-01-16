@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import { db } from "../db.js";
 import jwt from "jsonwebtoken";
+import { ObjectId } from "mongodb";
 
 dotenv.config();
 
@@ -63,9 +64,12 @@ export const leaveApplication = async (req, res) => {
 export const deleteLeaveApplication = async (req, res) => {
   const { id } = req.params;
   try {
+    const leaveAppId = new ObjectId(id);
+
     const result = await db
       .collection("leaveApplications")
-      .deleteOne({ _id: id });
+      .deleteOne({ _id: leaveAppId });
+
     if (result.deletedCount > 0) {
       res.json({
         message: `Leave application with ID ${id} deleted successfully`,
