@@ -6,6 +6,7 @@ import {
   deleteQuery,
 } from "../controllers/queriesController.js";
 import {
+  deleteLeaveApplication,
   getAllLeaveApplications,
   leaveApplication,
 } from "../controllers/leaveController.js";
@@ -22,5 +23,6 @@ router.get("/queries", getQueries);
 router.delete("/queries/:id", deleteQuery);
 router.post("/leaveApplication", leaveApplication);
 router.get("/AllLeaveApplication", getAllLeaveApplications);
+router.post("/DeleteleaveApplication", deleteLeaveApplication);
 
 export default router;

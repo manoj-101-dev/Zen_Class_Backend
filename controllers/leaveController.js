@@ -59,6 +59,30 @@ export const leaveApplication = async (req, res) => {
   }
 };
 
+// Function to delete a leave application by ID
+export const deleteLeaveApplication = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await db
+      .collection("leaveApplications")
+      .deleteOne({ _id: id });
+    if (result.deletedCount > 0) {
+      res.json({
+        message: `Leave application with ID ${id} deleted successfully`,
+      });
+    } else {
+      res
+        .status(404)
+        .json({ message: `Leave application with ID ${id} not found` });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting leave application",
+      error: error.message,
+    });
+  }
+};
+
 // Function to get leave applications for the authenticated user
 export const getAllLeaveApplications = async (req, res) => {
   try {

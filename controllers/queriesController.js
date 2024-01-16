@@ -82,7 +82,7 @@ const sendEmail = async (userEmail, newQuery) => {
       from: userEmail,
       to: process.env.EMAIL,
       subject: "Query Created",
-      text: `Your query "${newQuery.title}" has been created successfully.`,
+      text: `Your query "${newQuery.title}" has been created successfully.\n Our team will contact you soon and resolve your doubts ASAP`,
     };
 
     const info = await transporter.sendMail(mailOptions);
