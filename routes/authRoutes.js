@@ -23,6 +23,6 @@ router.get("/queries", getQueries);
 router.delete("/queries/:id", deleteQuery);
 router.post("/leaveApplication", leaveApplication);
 router.get("/AllLeaveApplication", getAllLeaveApplications);
-router.post("/DeleteleaveApplication", deleteLeaveApplication);
+router.delete("/DeleteleaveApplication", deleteLeaveApplication);
 
 export default router;
