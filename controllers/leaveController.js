@@ -13,6 +13,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL,
     pass: process.env.APP_PASSWORD,
   },
+  debug: true,
 });
 
 export const leaveApplication = async (req, res) => {
