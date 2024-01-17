@@ -6,7 +6,15 @@ import { ObjectId } from "mongodb";
 
 dotenv.config();
 
-// Endpoint to handle Leave Applications form submission
+// Email configuration using nodemailer (Gmail as an example)
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD,
+  },
+});
+
 export const leaveApplication = async (req, res) => {
   const newApplication = req.body;
 
@@ -21,7 +29,7 @@ export const leaveApplication = async (req, res) => {
     });
 
     // Send email when a new application is submitted
-    sendEmail(userEmail, newApplication);
+    await sendEmail(userEmail, newApplication);
 
     res.status(201).json({
       message: "Application submitted successfully",
@@ -81,29 +89,20 @@ export const getAllLeaveApplications = async (req, res) => {
   }
 };
 
-// Email configuration using nodemailer (Gmail as an example)
-const transporter = nodemailer.createTransport({
-  service: "Gmail",
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.PASSWORD,
-  },
-});
-
 // Function to send an email
-const sendEmail = (userEmail, application) => {
-  const mailOptions = {
-    from: process.env.EMAIL, // Sender email
-    to: userEmail, // Recipient's email
-    subject: "New Leave Application Submitted",
-    text: `Dear User,\n\nYour leave application details are as follows:\n\nDays: ${application.days}\nFrom: ${application.from}\nTo: ${application.to}\nReason: ${application.options}`,
-  };
+const sendEmail = async (userEmail, application) => {
+  try {
+    const mailOptions = {
+      from: process.env.EMAIL, // Sender email
+      to: userEmail, // Recipient's email
+      subject: "New Leave Application Submitted",
+      text: `Dear User,\n\nYour leave application details are as follows:\n\nDays: ${application.days}\nFrom: ${application.from}\nTo: ${application.to}\nReason: ${application.options}`,
+    };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error("Error occurred while sending email:", error);
-    } else {
-      console.log("Email sent:", info.response);
-    }
-  });
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.response);
+  } catch (error) {
+    console.error("Error occurred while sending email:", error);
+    // Handle the error as needed
+  }
 };
