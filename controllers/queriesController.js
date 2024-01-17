@@ -76,7 +76,7 @@ const sendEmail = async (userEmail, newQuery) => {
       service: "Gmail",
       auth: {
         user: process.env.EMAIL,
-        pass: process.env.PASSWORD,
+        pass: process.env.APP_PASSWORD,
       },
     });
 

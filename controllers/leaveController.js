@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
     user: process.env.EMAIL,
-    pass: process.env.PASSWORD,
+    pass: process.env.APP_PASSWORD,
   },
 });
 
@@ -20,8 +20,18 @@ export const leaveApplication = async (req, res) => {
 
   try {
     const token = req.headers.authorization.split(" ")[1];
+
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-    const userEmail = decodedToken.email;
+    const userEmail = decodedToken?.email;
+
+    if (!userEmail) {
+      console.error("User email not found in decoded token");
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: User email not found" });
+    }
+
+    console.log("User Email:", userEmail);
 
     await db.collection("leaveApplications").insertOne({
       ...newApplication,
@@ -73,7 +83,14 @@ export const getAllLeaveApplications = async (req, res) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-    const loggedInUserEmail = decodedToken.email;
+    const loggedInUserEmail = decodedToken?.email;
+
+    if (!loggedInUserEmail) {
+      console.error("User email not found in decoded token");
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: User email not found" });
+    }
 
     const userApplications = await db
       .collection("leaveApplications")
@@ -93,10 +110,17 @@ export const getAllLeaveApplications = async (req, res) => {
 const sendEmail = async (userEmail, application) => {
   try {
     const mailOptions = {
-      from: process.env.EMAIL, // Sender email
-      to: userEmail, // Recipient's email
+      from: process.env.EMAIL,
+      to: userEmail, // Ensure userEmail is defined and contains a valid email address
       subject: "New Leave Application Submitted",
-      text: `Dear User,\n\nYour leave application details are as follows:\n\nDays: ${application.days}\nFrom: ${application.from}\nTo: ${application.to}\nReason: ${application.options}`,
+      text: `Dear User,
+
+Your leave application details are as follows:
+Days: ${application.days}
+From: ${application.from}
+To: ${application.to}
+Reason: ${application.options}
+`,
     };
 
     const info = await transporter.sendMail(mailOptions);

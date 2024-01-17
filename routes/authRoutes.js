@@ -18,6 +18,10 @@ router.post("/signup", signup);
 router.post("/login", login);
 // Applying authenticateToken middleware to routes that require authentication
 router.use(authenticateToken);
+router.get("/protected-route", (req, res) => {
+  const userId = req.decodedToken.userId;
+  res.json({ message: "Protected route accessed", userId });
+});
 router.post("/queries", createQuery);
 router.get("/queries", getQueries);
 router.delete("/queries/:id", deleteQuery);

@@ -1,6 +1,6 @@
 import {
-  createUser,
   findUserByEmail,
+  createUser,
   comparePasswords,
 } from "../models/user.js";
 import { generateToken } from "../auth/jwt.js";
@@ -35,14 +35,15 @@ export async function login(req, res) {
       return res.status(404).json({ message: "User not found" });
     }
 
+    console.log("User email in login:", user.email); // Ensure this line is reached
+
     const passwordMatch = await comparePasswords(password, user.password);
 
     if (!passwordMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const token = generateToken(user._id);
-
+    const token = generateToken(user._id, user.email);
     const userData = {
       _id: user._id,
     };
