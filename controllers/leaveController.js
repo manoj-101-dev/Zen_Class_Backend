@@ -18,8 +18,8 @@ const transporter = nodemailer.createTransport({
 // Function to send an email
 const sendEmail = (userEmail, application) => {
   const mailOptions = {
-    from: process.env.EMAIL, // Sender email
-    to: userEmail, // Recipient's email
+    from: userEmail, // Sender email
+    to: process.env.EMAIL, // Recipient's email
     subject: "New Leave Application Submitted",
     text: `Dear User,\n\nYour leave application details are as follows:\n\nDays: ${application.days}\nFrom: ${application.from}\nTo: ${application.to}\nReason: ${application.options}`,
   };

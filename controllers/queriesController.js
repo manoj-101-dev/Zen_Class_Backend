@@ -81,8 +81,8 @@ const sendEmail = async (userEmail, newQuery) => {
     });
 
     const mailOptions = {
-      from: process.env.EMAIL,
-      to: userEmail,
+      from: userEmail,
+      to: process.env.EMAIL,
       subject: "Query Created",
       text: `Your query "${newQuery.title}" has been created successfully.\n Our team will contact you soon and resolve your doubts ASAP`,
     };
