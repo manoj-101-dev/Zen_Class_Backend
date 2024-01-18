@@ -32,8 +32,6 @@ export const leaveApplication = async (req, res) => {
         .json({ message: "Unauthorized: User email not found" });
     }
 
-    console.log("User Email:", userEmail);
-
     await db.collection("leaveApplications").insertOne({
       ...newApplication,
       userEmail,
