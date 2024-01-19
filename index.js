@@ -15,7 +15,8 @@ app.get("/", (req, res) => {
 // Allow CORS for all routes
 app.use(
   cors({
-    origin: "https://zen-class.vercel.app",
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
 );
