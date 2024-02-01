@@ -12,9 +12,9 @@ import {
 } from "../controllers/leaveController.js";
 import { authenticateToken } from "../auth/jwt.js";
 import {
-  createTask,
-  getTasks,
-  deleteTask,
+  createTasks,
+  getTask,
+  deleteTasks,
 } from "../controllers/taskController.js";
 
 const router = express.Router();
@@ -33,7 +33,7 @@ router.delete("/queries/:id", deleteQuery);
 router.post("/leaveApplication", leaveApplication);
 router.get("/allLeaveApplication", getAllLeaveApplications);
 router.delete("/leaveApplication/:id", deleteLeaveApplication);
-router.post("/tasks", createTask);
-router.get("/tasks", getTasks);
-router.delete("/tasks/:id", deleteTask);
+router.post("/tasks", createTasks);
+router.get("/AllTasks", getTask);
+router.delete("/tasks/:id", deleteTasks);
 export default router;

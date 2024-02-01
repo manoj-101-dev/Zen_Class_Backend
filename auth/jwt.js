@@ -11,7 +11,7 @@ export function generateToken(userId, email) {
 export function verifyToken(token) {
   try {
     const decoded = jwt.verify(token, secretKey);
-    console.log("Decoded Token:", decoded);
+
     return decoded;
   } catch (error) {
     console.error("Token Verification Error:", error.message);

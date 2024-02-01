@@ -1,17 +1,17 @@
+import { createTask, getTasks, deleteTask } from "../models/taskModel.js";
+
 // Function to create a new task
-export const createTask = async (req, res) => {
+export const createTasks = async (req, res) => {
   try {
-    // Assuming you have a Task model
     const { frontendUrl, backendUrl, comments } = req.body;
-    const newTask = new Task({
+    const newTask = await createTask({
       frontendUrl,
       backendUrl,
       comments,
-      userId: req.decodedToken.userId, // Assuming userId is included in the decoded token
+      userId: req.decodedToken.userId,
     });
 
-    const savedTask = await newTask.save();
-    res.status(201).json(savedTask);
+    res.status(201).json(newTask);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -19,10 +19,9 @@ export const createTask = async (req, res) => {
 };
 
 // Function to get all tasks
-export const getTasks = async (req, res) => {
+export const getTask = async (req, res) => {
   try {
-    // Assuming you have a Task model
-    const tasks = await Task.find({ userId: req.decodedToken.userId });
+    const tasks = await getTasks(req.decodedToken.userId);
     res.status(200).json(tasks);
   } catch (error) {
     console.error(error);
@@ -31,10 +30,9 @@ export const getTasks = async (req, res) => {
 };
 
 // Function to delete a task
-export const deleteTask = async (req, res) => {
+export const deleteTasks = async (req, res) => {
   try {
-    // Assuming you have a Task model
-    const deletedTask = await Task.findByIdAndRemove(req.params.id);
+    const deletedTask = await deleteTask(req.params.id);
     res.status(200).json(deletedTask);
   } catch (error) {
     console.error(error);
