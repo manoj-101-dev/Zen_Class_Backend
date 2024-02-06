@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 // Allow CORS for all routes
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://zen-class-liard.vercel.app/"],
+    origin: ["http://localhost:5173", "https://zen-class-six.vercel.app"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
